@@ -9,7 +9,7 @@ import javax.jws.WebService;
  * @Author: Administrator
  * @CreateDate: 2019/4/9 0:06
  */
-@WebService
+@WebService(serviceName = "CalculateService")
 public interface ICalculateService {
 
     @WebResult(name="result")

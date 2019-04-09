@@ -1,7 +1,9 @@
 package com.ljw.webservice_cxf;
 
-import com.ljw.webservice_cxf.service.ICalculateService;
+import com.ljw.webservice_cxf.interceptor.LincenseInterceptor;
 import com.ljw.webservice_cxf.service.impl.CalculateServiceImpl;
+import com.ljw.webservice_cxf.service.ICalculateService;
+import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 
 import javax.xml.ws.Endpoint;
@@ -27,7 +29,15 @@ public class Publish {
         jaxWsServiceFactoryBean.setServiceClass(ICalculateService.class);
 //        4.设置服务的发布对象
         jaxWsServiceFactoryBean.setServiceBean(new CalculateServiceImpl());
-//        5.使用create方法发布服务
+
+        //===================拦截器======================
+        //官方提供日志拦截器
+        jaxWsServiceFactoryBean.getInInterceptors().add(new LoggingInInterceptor());
+        //自定义的许可拦截器
+        jaxWsServiceFactoryBean.getInInterceptors().add(new LincenseInterceptor());
+        //===================拦截器======================
+
+//        5.使用create方法发布服务--应用配置
         jaxWsServiceFactoryBean.create();
 
         System.out.println("计算器服务发布成功");
